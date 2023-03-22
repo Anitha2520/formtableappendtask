@@ -9,13 +9,12 @@ var firstcol6 = document.createElement("div");
 firstcol6.setAttribute("class","col-6");
 
 var form = document.createElement("form");
-form.setAttribute("id","myForm");
+form.setAttribute("id","form");
 form.setAttribute("onsubmit","reset();return false;");
-var fnames = createformgroup("firstname","First Name");
-var lnames = createformgroup("lastname","Last Name");
-var address1 = createformgroup("address1","Address Line 1");
-var address2 = createformgroup("address2","Address Line 2");
-var pin = createformgroup("pin","PIN");
+var fnames = createformgroup("first-name","First Name");
+var lnames = createformgroup("last-name","Last Name");
+var address1 = createformgroup("address","Address");
+var pin = createformgroup("pincode","PIN");
 var gender = createformgroupradio("gender","Gender");
 var food = createformgroupcheckbox("food","Choice of Food: (must choose at least 2 out of 5 options)");
 var state = createformgroup("state","State");
@@ -23,7 +22,7 @@ var country = createformgroup("country","Country");
 var sbutton = button("input","type","submit","Submit");
 
 function reset(){
-    document.getElementById("myform").reset();
+    document.getElementById("form").reset();
 }
 function createformgroupcheckbox(id,text){
     divs=document.createElement("div");   
@@ -101,8 +100,17 @@ function createformgroupradio(id,text){
 function createformgroup(id,text){
     div1=document.createElement("div");   
     div1.setAttribute("class","form-group");
-    var fname = labels("label","for",id,text+":");     
-    var finput = inputs("input","type","text","name",text,"id",id);         
+    var fname = labels("label","for",id,text+":");  
+    if(id=="address"){        
+        var finput = document.createElement("textarea");
+        finput.className="form-control";
+        finput.setAttribute("id","address");
+        finput.setAttribute("rows","3"); 
+        finput.setAttribute("placeholder","Address");
+        finput.setAttribute("required",true);
+    } else {
+        var finput = inputs("input","type","text","name",text,"id",id);     
+    }    
     div1.append(fname,finput);
     return div1;    
 }
@@ -133,6 +141,7 @@ function button(tagname,attrname,attrvalue,content){
     button.setAttribute(attrname,attrvalue);
     button.setAttribute("class","btn btn-primary btn-block");
     button.setAttribute("onclick","val()");
+    button.setAttribute("id","submit");
     button.innerHTML = content;
     div1.append(button);
    return div1;
@@ -166,10 +175,26 @@ tr.append(thfname,thlname,thaddress,thpin,thgender,thfood,thstate,thcountry);
 
 secondcol6.append(table);
 
-divcontainer.append(row);
+
+var row1 = document.createElement("div");
+row1.setAttribute("class","row");
+
+var div= document.createElement("div");
+row1.append(div);
+var titleh1 = document.createElement("h1");
+titleh1.setAttribute("id","title");
+titleh1.innerHTML="DOM Manipulation with Forms";
+
+var descp = document.createElement("p");
+descp.setAttribute("id","description");
+descp.innerHTML="Create a form and table using HTML,CSS and DOM.";
+div.append(titleh1,descp);
+
+
+divcontainer.append(row1,row);
 row.append(firstcol6,secondcol6);
 firstcol6.append(form);
-form.append(fnames,lnames,address1,address2,pin,gender,food,state,country,sbutton);
+form.append(fnames,lnames,address1,pin,gender,food,state,country,sbutton);
 document.body.append(divcontainer);
 
 
@@ -191,19 +216,19 @@ function val(){
    var tr = document.createElement("tr");
    tbody.append(tr);
     // tbody.innerHTML="";
-   fname= document.getElementById("firstname").value;
+   fname= document.getElementById("first-name").value;
    var fnametd= td(fname);
    tr.append(fnametd);
 
-   lname= document.getElementById("lastname").value;
+   lname= document.getElementById("last-name").value;
    var lnametd= td(lname);
    tr.append(lnametd);
 
-   address= document.getElementById("address1").value+" "+document.getElementById("address2").value;
+   address= document.getElementById("address").value;
    var addresstd= td(address);
    tr.append(addresstd);
 
-   lpin= document.getElementById("pin").value;
+   lpin= document.getElementById("pincode").value;
    var lpintd= td(lpin);
    tr.append(lpintd);
 
